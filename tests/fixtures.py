@@ -3,6 +3,7 @@ from tests.utils.docker_utils import start_database_container
 from sqlalchemy import create_engine
 from .utils import database_utils
 from dotenv import load_dotenv
+from sqlalchemy.orm import sessionmaker
 import os
 
 load_dotenv()
@@ -18,6 +19,12 @@ def db_session():
     with engine.begin() as connection:
         database_utils.migrate_to_db('migrations', 'alembic.ini', connection)
 
+    local_session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
+
+    yield local_session
+
     # stopping the container once test is done
-    # container.stop()
-    # container.remove()
+    container.stop()
+    container.remove()
+
+    engine.dispose()
