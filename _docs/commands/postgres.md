@@ -4,7 +4,13 @@
     ```
     SELECT column_name, data_type
     FROM information_schema.columns
-    WHERE table_name = 'your_table_name';
+    WHERE table_name = 'category';
+    ```
+    
+    ```
+    SELECT constraint_name, constraint_type
+    FROM information_schema.table_constraints
+    WHERE table_name = 'category' AND constraint_type = 'CHECK';
     ```
 
 
