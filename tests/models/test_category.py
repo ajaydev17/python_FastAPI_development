@@ -31,6 +31,21 @@ def test_model_structure_column_data_type(db_inspector):
 
 
 """
+- [ ] Ensure that column foreign keys correctly defined.
+"""
+
+
+def test_model_structure_foreign_key(db_inspector):
+    table = "category"
+    foreign_keys = db_inspector.get_foreign_keys(table)
+    category_foreign_key = next(
+        (fk for fk in foreign_keys if set(fk["constrained_columns"]) == {"parent_id"}),
+        None,
+    )
+    assert category_foreign_key is not None
+
+
+"""
 - [ ] Verify nullable or not nullable fields
 """
 

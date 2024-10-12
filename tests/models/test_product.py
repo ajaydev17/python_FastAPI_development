@@ -68,6 +68,26 @@ def test_model_structure_nullable_constraints(db_inspector):
 
 
 """
+- [ ] Ensure that column foreign keys correctly defined.
+"""
+
+
+def test_model_structure_foreign_key(db_inspector):
+    table = "product"
+    foreign_keys = db_inspector.get_foreign_keys(table)
+    product_foreign_key = next(
+        (
+            fk
+            for fk in foreign_keys
+            if set(fk["constrained_columns"]) == {"category_id"}
+            or set(fk["constrained_columns"]) == {"seasonal_id"}
+        ),
+        None,
+    )
+    assert product_foreign_key is not None
+
+
+"""
 - [ ] Test columns with specific constraints to ensure they are accurately defined.
 """
 
