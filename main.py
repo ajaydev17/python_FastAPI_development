@@ -1,17 +1,36 @@
-
 # import the modules
 from fastapi import FastAPI
+import logging
+import logging.config
+
+# logger settings
+# logging.basicConfig(level=logging.DEBUG)
+
+# select the logging info from a file
+logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
+
+# defining the logger
+logger = logging.getLogger(__name__)
 
 # create a fastapi server
 app = FastAPI()
 
 
-# create routes
+# api routes definition and handlers
 @app.get('/')
-def hello_world():
-    return "Hello World"
+async def read_root():
+    try:
+        # raising an exception
+        raise Exception('Simulated debug error occurred!!')
+    except Exception as e:
+        # logging the exception at the debug level
+        # logging.debug(f"An exception occurred: {e}")
 
+        # logging the full traceback if needed
+        # logging.debug('Exception traceback: ', exc_info=True)
 
-@app.get('/hi')
-def hi():
-    return "HI"
+        # logging the error using logger logging
+        logger.error(f"An exception occurred: {e}")
+        logger.error('Exception traceback: ', exc_info=True)
+
+    return {'message': 'Hello, World!!'}
