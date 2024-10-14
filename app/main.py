@@ -7,7 +7,7 @@ import logging.config
 # logging.basicConfig(level=logging.DEBUG)
 
 # select the logging info from a file
-logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig('../logging.conf', disable_existing_loggers=False)
 
 # defining the logger
 logger = logging.getLogger(__name__)
