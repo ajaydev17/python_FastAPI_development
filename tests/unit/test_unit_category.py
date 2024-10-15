@@ -2,6 +2,7 @@ import pytest
 from pydantic import ValidationError
 from app.schemas.category_schema import CategoryCreate
 from tests.factories.models_factory import get_random_category_dict
+from app.models import Category
 
 
 def mock_output(return_value=None):
@@ -40,6 +41,9 @@ def test_unit_schema_category_validation():
 
 def test_unit_create_new_category_successful(client, monkeypatch):
     category = get_random_category_dict()
+
+    for key, value in category.items():
+        monkeypatch.setattr(Category, key, value)
 
     monkeypatch.setattr('sqlalchemy.orm.Query.first', mock_output())
     monkeypatch.setattr('sqlalchemy.orm.Session.commit', mock_output())
