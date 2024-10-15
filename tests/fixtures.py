@@ -4,12 +4,15 @@ from sqlalchemy import create_engine
 from .utils import database_utils
 from dotenv import load_dotenv
 from sqlalchemy.orm import sessionmaker
+from fastapi.testclient import TestClient
+from app.main import app
 import os
 
 load_dotenv()
 
 
-@pytest.fixture(scope='session', autouse=True)
+# @pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope='session')
 def db_session():
     container = start_database_container()
 
@@ -28,3 +31,9 @@ def db_session():
     container.remove()
 
     engine.dispose()
+
+
+@pytest.fixture(scope='function')
+def client():
+    with TestClient(app) as _client:
+        yield _client
