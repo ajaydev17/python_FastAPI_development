@@ -14,5 +14,14 @@ class CategoryCreate(CategoryBase):
     pass
 
 
+class CategoryUpdate(CategoryBase):
+    pass
+
+
 class CategoryReturn(CategoryBase):
     id: int
+
+
+class CategoryDeleteReturn(CategoryBase):
+    id: int
+    name: Annotated[str, StringConstraints(min_length=1)]

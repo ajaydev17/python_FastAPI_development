@@ -1,6 +1,8 @@
 from faker import Faker
+from itertools import count
 
 faker = Faker()
+
 
 
 class Category:
@@ -14,8 +16,10 @@ class Category:
 
 
 def get_random_category_dict(id_: int = None):
+    id_counter = count(start=1)
+    id_ = next(id_counter)
     return {
-        'id': id_ or faker.random_int(1, 1000),
+        'id': id_,
         'name': faker.word(),
         'slug': faker.slug(),
         'is_active': faker.boolean(),
